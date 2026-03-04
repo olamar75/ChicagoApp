@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Chicago Poängräknare</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎴 Chicago</h1>
+            <button id="resetBtn" class="reset-btn">Ny omgång</button>
+        </header>
+
+        <div id="setupScreen" class="setup-screen">
+            <h2>Antal spelare</h2>
+            <div class="player-count-btns">
+                <button class="player-count-btn" data-players="2">2</button>
+                <button class="player-count-btn" data-players="3">3</button>
+                <button class="player-count-btn" data-players="4">4</button>
+            </div>
+            <div id="playerNames" class="player-names hidden">
+                <h3>Spelarnamn</h3>
+                <div id="nameInputs"></div>
+                <button id="startBtn" class="start-btn">Starta spel</button>
+            </div>
+        </div>
+
+        <div id="gameScreen" class="game-screen hidden">
+            <div id="playersContainer" class="players-container"></div>
+            
+            <div class="score-buttons">
+                <h3>Poängknappar</h3>
+                <div class="quick-buttons">
+                    <button class="score-btn quick-btn" data-score="1">Par (1p)</button>
+                    <button class="score-btn quick-btn" data-score="2">Två par (2p)</button>
+                    <button class="score-btn quick-btn" data-score="3">Triss (3p)</button>
+                    <button class="score-btn quick-btn" data-score="4">Stege (4p)</button>
+                    <button class="score-btn quick-btn" data-score="5">Färg (5p)</button>
+                    <button class="score-btn quick-btn" data-score="6">Kåk (6p)</button>
+                    <button class="score-btn quick-btn" data-score="7">Fyrtal (7p)</button>
+                    <button class="score-btn quick-btn" data-score="8">Färgstege (8p)</button>
+                    <button class="score-btn quick-btn" data-score="5">Spelet (5p)</button>
+                    <button class="score-btn quick-btn chicago-royal" data-score="52">Royal flush (52p)</button>
+                    <button class="score-btn quick-btn chicago-plus" data-score="15">Chicago +15</button>
+                    <button class="score-btn quick-btn negative chicago-minus" data-score="-15">Chicago -15</button>
+                </div>
+                <div class="undo-container">
+                    <button id="undoBtn" class="undo-btn" disabled>Ångra</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="winnerScreen" class="winner-screen hidden">
+            <div class="winner-content">
+                <h2>🏆 Vinnare! 🏆</h2>
+                <p id="winnerName"></p>
+                <button id="newGameBtn" class="start-btn">Nytt spel</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

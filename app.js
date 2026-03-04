@@ -164,12 +164,7 @@ function addScore(points) {
         return;
     }
     
-    // Move to next player only for positive scores
-    if (points > 0) {
-        moveToNextPlayer();
-    }
-    
-    // Update UI
+    // Update UI (keep focus on current player)
     renderPlayers();
     updateScoreButtons();
     updateUndoButton();

@@ -69,9 +69,24 @@ function showPlayerNameInputs(count) {
         input.placeholder = `Spelare ${i + 1}`;
         input.value = `Spelare ${i + 1}`;
         input.maxLength = 20;
+        
+        // Select all text when input is focused
+        input.addEventListener('focus', function() {
+            this.select();
+        });
+        
         nameInputsDiv.appendChild(input);
     }
     playerNamesDiv.classList.remove('hidden');
+    
+    // Focus on first input after a small delay to ensure DOM is updated
+    setTimeout(() => {
+        const firstInput = nameInputsDiv.querySelector('input');
+        if (firstInput) {
+            firstInput.focus();
+            firstInput.select();
+        }
+    }, 100);
 }
 
 function startGame() {

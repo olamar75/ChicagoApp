@@ -67,38 +67,17 @@ function showPlayerNameInputs(count, userEvent) {
         const input = document.createElement('input');
         input.type = 'text';
         input.placeholder = `Spelare ${i + 1}`;
-        input.value = `Spelare ${i + 1}`;
+        input.value = '';  // Start with empty value so user can type immediately
         input.maxLength = 20;
         input.setAttribute('inputmode', 'text');
+        input.setAttribute('autocomplete', 'off');
         
-        // Select all text when input is focused
-        input.addEventListener('focus', function() {
-            // Use setTimeout(0) to ensure selection happens after focus completes
-            setTimeout(() => this.select(), 0);
-        });
-        
-        // Add click handler to select text
-        input.addEventListener('click', function(e) {
-            this.select();
-        });
-        
-        // Add touchend handler for mobile devices
-        input.addEventListener('touchend', function(e) {
-            this.focus();
-            this.select();
-        });
+        // Store default name as data attribute
+        input.dataset.defaultName = `Spelare ${i + 1}`;
         
         nameInputsDiv.appendChild(input);
     }
     playerNamesDiv.classList.remove('hidden');
-    
-    // Focus immediately - must be synchronous with user interaction for mobile
-    const firstInput = nameInputsDiv.querySelector('input');
-    if (firstInput && userEvent) {
-        // Focus synchronously to maintain user interaction context on mobile
-        firstInput.focus();
-        setTimeout(() => firstInput.select(), 0);
-    }
 }
 
 function startGame() {

@@ -1,12 +1,12 @@
 // Service Worker for Chicago App
-const CACHE_NAME = 'chicago-app-v1';
+const CACHE_NAME = 'chicago-app-v2';
 const urlsToCache = [
   './',
   './index.html',
   './styles.css',
   './app.js',
-  './favicon.png',
-  './icon.svg'
+  './icon-192.png',
+  './icon-512.png'
 ];
 
 // Install event

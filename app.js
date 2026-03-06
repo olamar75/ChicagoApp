@@ -252,3 +252,10 @@ function resetGame() {
 
 // Initialize app
 init();
+
+// Register service worker for PWA support
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('./sw.js')
+        .then((registration) => console.log('Service Worker registered'))
+        .catch((error) => console.log('Service Worker registration failed:', error));
+}

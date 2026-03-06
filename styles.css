@@ -119,6 +119,12 @@ header h1 {
     border-color: #667eea;
 }
 
+.player-names input::placeholder {
+    color: #aaa;
+    opacity: 0.6;
+    font-style: italic;
+}
+
 .start-btn {
     width: 100%;
     background: #27ae60;

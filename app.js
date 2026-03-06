@@ -72,6 +72,11 @@ function showPlayerNameInputs(count, userEvent) {
         input.setAttribute('inputmode', 'text');
         input.setAttribute('autocomplete', 'off');
         
+        // Autofocus on first input
+        if (i === 0) {
+            input.setAttribute('autofocus', 'autofocus');
+        }
+        
         // Store default name as data attribute
         input.dataset.defaultName = `Spelare ${i + 1}`;
         

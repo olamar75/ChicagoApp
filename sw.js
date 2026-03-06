@@ -1,5 +1,5 @@
 // Service Worker for Chicago App
-const CACHE_NAME = 'chicago-app-v5';
+const CACHE_NAME = 'chicago-app-v6';
 const urlsToCache = [
   './',
   './index.html',

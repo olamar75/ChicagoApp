@@ -28,11 +28,11 @@ function init() {
 function setupEventListeners() {
     // Player count selection
     playerCountBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
+        btn.addEventListener('click', (e) => {
             playerCountBtns.forEach(b => b.classList.remove('selected'));
             btn.classList.add('selected');
             const count = parseInt(btn.dataset.players);
-            showPlayerNameInputs(count);
+            showPlayerNameInputs(count, e);
         });
     });
 
@@ -61,7 +61,7 @@ function setupEventListeners() {
     newGameBtn.addEventListener('click', resetGame);
 }
 
-function showPlayerNameInputs(count) {
+function showPlayerNameInputs(count, userEvent) {
     nameInputsDiv.innerHTML = '';
     for (let i = 0; i < count; i++) {
         const input = document.createElement('input');
@@ -69,9 +69,22 @@ function showPlayerNameInputs(count) {
         input.placeholder = `Spelare ${i + 1}`;
         input.value = `Spelare ${i + 1}`;
         input.maxLength = 20;
+        input.setAttribute('inputmode', 'text');
         
         // Select all text when input is focused
         input.addEventListener('focus', function() {
+            // Use setTimeout(0) to ensure selection happens after focus completes
+            setTimeout(() => this.select(), 0);
+        });
+        
+        // Add click handler to select text
+        input.addEventListener('click', function(e) {
+            this.select();
+        });
+        
+        // Add touchend handler for mobile devices
+        input.addEventListener('touchend', function(e) {
+            this.focus();
             this.select();
         });
         
@@ -79,14 +92,13 @@ function showPlayerNameInputs(count) {
     }
     playerNamesDiv.classList.remove('hidden');
     
-    // Focus on first input after a small delay to ensure DOM is updated
-    setTimeout(() => {
-        const firstInput = nameInputsDiv.querySelector('input');
-        if (firstInput) {
-            firstInput.focus();
-            firstInput.select();
-        }
-    }, 100);
+    // Focus immediately - must be synchronous with user interaction for mobile
+    const firstInput = nameInputsDiv.querySelector('input');
+    if (firstInput && userEvent) {
+        // Focus synchronously to maintain user interaction context on mobile
+        firstInput.focus();
+        setTimeout(() => firstInput.select(), 0);
+    }
 }
 
 function startGame() {

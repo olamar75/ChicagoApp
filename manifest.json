@@ -4,16 +4,15 @@
   "description": "Poängräknare för kortspelet Chicago",
   "icons": [
     {
-      "src": "favicon.png",
-      "sizes": "192x192",
-      "type": "image/png",
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
       "purpose": "any maskable"
     },
     {
       "src": "favicon.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
+      "sizes": "2816x1536",
+      "type": "image/png"
     }
   ],
   "start_url": "/",

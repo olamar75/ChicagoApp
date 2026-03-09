@@ -2,7 +2,10 @@
 let gameState = {
     players: [],
     activePlayerIndex: null,
-    history: []
+    history: [],
+    currentRound: 1,
+    exchangesUsed: 0,
+    maxExchanges: 3
 };
 
 // DOM elements
@@ -19,6 +22,10 @@ const scoreBtns = document.querySelectorAll('.score-btn');
 const undoBtn = document.getElementById('undoBtn');
 const winnerName = document.getElementById('winnerName');
 const newGameBtn = document.getElementById('newGameBtn');
+const historyBtn = document.getElementById('historyBtn');
+const historyModal = document.getElementById('historyModal');
+const closeHistoryBtn = document.getElementById('closeHistoryBtn');
+const historyMatrix = document.getElementById('historyMatrix');
 
 // Initialize
 function init() {
@@ -59,6 +66,25 @@ function setupEventListeners() {
 
     // New game button
     newGameBtn.addEventListener('click', resetGame);
+
+    // History button
+    if (historyBtn) {
+        historyBtn.addEventListener('click', showHistoryModal);
+    }
+
+    // Close history modal
+    if (closeHistoryBtn) {
+        closeHistoryBtn.addEventListener('click', hideHistoryModal);
+    }
+
+    // Close modal when clicking outside
+    if (historyModal) {
+        historyModal.addEventListener('click', (e) => {
+            if (e.target === historyModal) {
+                hideHistoryModal();
+            }
+        });
+    }
 }
 
 function showPlayerNameInputs(count, userEvent) {
@@ -98,13 +124,37 @@ function startGame() {
     
     gameState.activePlayerIndex = 0;
     gameState.history = [];
+    gameState.currentRound = 1;
+    gameState.exchangesUsed = 0;
     
     // Show game screen
     setupScreen.classList.add('hidden');
     gameScreen.classList.remove('hidden');
     
+    // Show history button
+    if (historyBtn) {
+        historyBtn.classList.remove('hidden');
+    }
+    
     renderPlayers();
     updateScoreButtons();
+    updateRoundInfo();
+    
+    // Setup exchange and round button listeners
+    const exchangeBtn = document.getElementById('exchangeBtn');
+    const nextRoundBtn = document.getElementById('nextRoundBtn');
+    
+    if (exchangeBtn) {
+        exchangeBtn.addEventListener('click', incrementExchange);
+    }
+    
+    if (nextRoundBtn) {
+        nextRoundBtn.addEventListener('click', () => {
+            if (confirm('Gå till nästa giv?')) {
+                nextRound();
+            }
+        });
+    }
 }
 
 function renderPlayers() {
@@ -155,7 +205,9 @@ function addScore(points) {
         playerIndex: gameState.activePlayerIndex,
         points: points,
         previousScore: player.score,
-        wasKoepstopp: player.koepstopp
+        wasKoepstopp: player.koepstopp,
+        round: gameState.currentRound,
+        exchanges: gameState.exchangesUsed
     });
     
     // Add points
@@ -179,6 +231,100 @@ function addScore(points) {
     renderPlayers();
     updateScoreButtons();
     updateUndoButton();
+}
+
+function showHistoryModal() {
+    renderHistoryMatrix();
+    historyModal.classList.remove('hidden');
+}
+
+function hideHistoryModal() {
+    historyModal.classList.add('hidden');
+}
+
+function renderHistoryMatrix() {
+    if (!historyMatrix) return;
+    
+    // Build matrix data structure
+    const matrixData = {};
+    
+    gameState.history.forEach(entry => {
+        const round = entry.round;
+        const playerIndex = entry.playerIndex;
+        const points = entry.points;
+        
+        if (!matrixData[round]) {
+            matrixData[round] = {};
+        }
+        
+        if (!matrixData[round][playerIndex]) {
+            matrixData[round][playerIndex] = [];
+        }
+        
+        matrixData[round][playerIndex].push(points);
+    });
+    
+    // Get all rounds
+    const rounds = Object.keys(matrixData).sort((a, b) => parseInt(a) - parseInt(b));
+    
+    if (rounds.length === 0) {
+        historyMatrix.innerHTML = '<p class="no-history">Ingen historik ännu. Börja spela för att se poängmatrisen!</p>';
+        return;
+    }
+    
+    // Build HTML table
+    let html = '<table class="matrix-table">';
+    
+    // Header row
+    html += '<thead><tr><th>Giv</th>';
+    gameState.players.forEach(player => {
+        html += `<th>${player.name}</th>`;
+    });
+    html += '</tr></thead><tbody>';
+    
+    // Data rows
+    rounds.forEach(round => {
+        html += `<tr><td class="round-cell">Giv ${round}</td>`;
+        
+        gameState.players.forEach((player, playerIndex) => {
+            const scores = matrixData[round][playerIndex] || [];
+            
+            if (scores.length > 0) {
+                const total = scores.reduce((sum, s) => sum + s, 0);
+                const scoresText = scores.map(s => {
+                    if (s > 0) return `+${s}`;
+                    return s.toString();
+                }).join(', ');
+                
+                let cellClass = 'score-cell';
+                if (total > 0) cellClass += ' positive';
+                if (total < 0) cellClass += ' negative';
+                if (total >= 52) cellClass += ' chicago';
+                
+                html += `<td class="${cellClass}" title="${scoresText}">`;
+                html += `<span class="score-value">${total > 0 ? '+' : ''}${total}</span>`;
+                if (scores.length > 1) {
+                    html += `<span class="score-detail">${scoresText}</span>`;
+                }
+                html += '</td>';
+            } else {
+                html += '<td class="score-cell empty">-</td>';
+            }
+        });
+        
+        html += '</tr>';
+    });
+    
+    // Total row
+    html += '<tr class="total-row"><td class="round-cell">Totalt</td>';
+    gameState.players.forEach(player => {
+        html += `<td class="score-cell total">${player.score}</td>`;
+    });
+    html += '</tr>';
+    
+    html += '</tbody></table>';
+    
+    historyMatrix.innerHTML = html;
 }
 
 function moveToNextPlayer() {
@@ -230,6 +376,8 @@ function undoLastAction() {
     // Restore previous state
     player.score = lastAction.previousScore;
     player.koepstopp = lastAction.wasKoepstopp;
+    gameState.currentRound = lastAction.round;
+    gameState.exchangesUsed = lastAction.exchanges;
     
     // Set active player back to the one who just got points
     gameState.activePlayerIndex = lastAction.playerIndex;
@@ -238,6 +386,50 @@ function undoLastAction() {
     renderPlayers();
     updateScoreButtons();
     updateUndoButton();
+    updateRoundInfo();
+}
+
+function incrementExchange() {
+    if (gameState.exchangesUsed < gameState.maxExchanges) {
+        gameState.exchangesUsed++;
+        updateRoundInfo();
+    }
+}
+
+function nextRound() {
+    gameState.currentRound++;
+    gameState.exchangesUsed = 0;
+    updateRoundInfo();
+}
+
+function updateRoundInfo() {
+    const roundDisplay = document.getElementById('roundDisplay');
+    const exchangeDisplay = document.getElementById('exchangeDisplay');
+    const exchangeBtn = document.getElementById('exchangeBtn');
+    
+    if (roundDisplay) {
+        roundDisplay.textContent = gameState.currentRound;
+    }
+    
+    if (exchangeDisplay) {
+        exchangeDisplay.textContent = `${gameState.exchangesUsed}/${gameState.maxExchanges}`;
+        
+        // Highlight if all exchanges are used
+        const exchangeCounter = document.getElementById('exchangeCounter');
+        if (exchangeCounter) {
+            if (gameState.exchangesUsed >= gameState.maxExchanges) {
+                exchangeCounter.classList.add('exchanges-full');
+                if (exchangeBtn) {
+                    exchangeBtn.disabled = true;
+                }
+            } else {
+                exchangeCounter.classList.remove('exchanges-full');
+                if (exchangeBtn) {
+                    exchangeBtn.disabled = false;
+                }
+            }
+        }
+    }
 }
 
 function showWinner(player) {
@@ -249,12 +441,23 @@ function resetGame() {
     gameState = {
         players: [],
         activePlayerIndex: null,
-        history: []
+        history: [],
+        currentRound: 1,
+        exchangesUsed: 0,
+        maxExchanges: 3
     };
     
     setupScreen.classList.remove('hidden');
     gameScreen.classList.add('hidden');
     winnerScreen.classList.add('hidden');
+    
+    // Hide history button and modal
+    if (historyBtn) {
+        historyBtn.classList.add('hidden');
+    }
+    if (historyModal) {
+        historyModal.classList.add('hidden');
+    }
     
     playerNamesDiv.classList.add('hidden');
     playerCountBtns.forEach(b => b.classList.remove('selected'));

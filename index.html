@@ -16,7 +16,10 @@
     <div class="container">
         <header>
             <h1>🎴 Chicago</h1>
-            <button id="resetBtn" class="reset-btn">Ny omgång</button>
+            <div class="header-buttons">
+                <button id="historyBtn" class="history-btn hidden">📊 Historik</button>
+                <button id="resetBtn" class="reset-btn">Ny omgång</button>
+            </div>
         </header>
 
         <div id="setupScreen" class="setup-screen">
@@ -34,6 +37,19 @@
         </div>
 
         <div id="gameScreen" class="game-screen hidden">
+            <div class="round-info">
+                <div class="round-counter">
+                    <span class="counter-label">Giv:</span>
+                    <span id="roundDisplay" class="counter-value">1</span>
+                    <button id="nextRoundBtn" class="round-btn">Nästa giv</button>
+                </div>
+                <div id="exchangeCounter" class="exchange-counter">
+                    <span class="counter-label">Byten:</span>
+                    <span id="exchangeDisplay" class="counter-value">0/3</span>
+                    <button id="exchangeBtn" class="exchange-btn">+1 byte</button>
+                </div>
+            </div>
+            
             <div id="playersContainer" class="players-container"></div>
             
             <div class="score-buttons">
@@ -63,6 +79,16 @@
                 <h2>🏆 Vinnare! 🏆</h2>
                 <p id="winnerName"></p>
                 <button id="newGameBtn" class="start-btn">Nytt spel</button>
+            </div>
+        </div>
+
+        <div id="historyModal" class="modal hidden">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>📊 Poänghistorik</h2>
+                    <button id="closeHistoryBtn" class="close-btn">✕</button>
+                </div>
+                <div id="historyMatrix" class="history-matrix"></div>
             </div>
         </div>
     </div>

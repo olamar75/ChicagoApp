@@ -179,6 +179,8 @@ header h1 {
     align-items: center;
     gap: 15px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    flex-wrap: wrap;
+    overflow: visible;
 }
 
 .round-counter,
@@ -188,6 +190,8 @@ header h1 {
     gap: 10px;
     flex: 1;
     justify-content: center;
+    flex-wrap: wrap;
+    min-width: 0;
 }
 
 .counter-label {
@@ -216,6 +220,9 @@ header h1 {
     cursor: pointer;
     transition: all 0.2s;
     white-space: nowrap;
+    flex-shrink: 1;
+    min-width: 0;
+    max-width: 100%;
 }
 
 .round-btn:active,
@@ -617,22 +624,25 @@ header h1 {
     .exchange-counter {
         width: 100%;
         flex-wrap: wrap;
-        justify-content: space-between;
+        justify-content: center;
+        gap: 8px;
     }
     
     .counter-label {
-        font-size: 1em;
+        font-size: 0.95em;
     }
     
     .counter-value {
-        font-size: 1.3em;
-        min-width: 60px;
+        font-size: 1.2em;
+        min-width: 50px;
     }
     
     .round-btn,
     .exchange-btn {
-        padding: 8px 12px;
-        font-size: 0.85em;
+        padding: 6px 10px;
+        font-size: 0.8em;
+        flex-shrink: 1;
+        max-width: 100%;
     }
     
     .quick-buttons {
@@ -679,6 +689,32 @@ header h1 {
     .game-screen,
     .score-buttons {
         padding: 15px;
+    }
+}
+
+@media (max-width: 400px) {
+    .round-info {
+        padding: 8px;
+    }
+    
+    .round-counter,
+    .exchange-counter {
+        gap: 5px;
+    }
+    
+    .counter-label {
+        font-size: 0.85em;
+    }
+    
+    .counter-value {
+        font-size: 1.1em;
+        min-width: 40px;
+    }
+    
+    .round-btn,
+    .exchange-btn {
+        padding: 5px 8px;
+        font-size: 0.75em;
     }
 }
 

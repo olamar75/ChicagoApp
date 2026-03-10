@@ -170,9 +170,15 @@ Du kan enkelt anpassa appen genom att:
 
 ## 📝 Changelog
 
+### Version 1.1.1 (2026-03-10)
+- ✅ Fixad mobil layout för Google Pixel 11 och andra små skärmar
+- ✅ Ökat media query tröskel till 768px för bättre mobilstöd
+- ✅ Minskade padding och font-storlekar för optimerad layout på små skärmar
+- ✅ Förbättrad header-layout med mindre knappar på mobil
+- ✅ Optimerad round-info sektion för smalare skärmar
+
 ### Version 1.1.0 (2026-03-10)
-- ✅ Fixad mobil layout: Ökat media query tröskel till 500px
-- ✅ Giv och Byten-knappar visas nu korrekt på alla mobiler
+- ✅ Initial mobil layout förbättring
 - ✅ Förbättrad responsiv design
 
 ### Version 1.0.0 (2026-03)

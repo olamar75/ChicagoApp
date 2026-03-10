@@ -583,12 +583,32 @@ header h1 {
 }
 
 /* Responsive adjustments */
-@media (max-width: 500px) {
-    .quick-buttons {
-        grid-template-columns: 1fr;
+@media (max-width: 768px) {
+    body {
+        padding: 5px;
+    }
+    
+    header {
+        padding: 12px;
+        flex-wrap: wrap;
+    }
+    
+    header h1 {
+        font-size: 1.5em;
+    }
+    
+    .header-buttons {
+        gap: 8px;
+    }
+    
+    .history-btn,
+    .reset-btn {
+        padding: 8px 12px;
+        font-size: 0.85em;
     }
     
     .round-info {
+        padding: 10px;
         flex-direction: column;
         gap: 10px;
     }
@@ -596,6 +616,49 @@ header h1 {
     .round-counter,
     .exchange-counter {
         width: 100%;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+    
+    .counter-label {
+        font-size: 1em;
+    }
+    
+    .counter-value {
+        font-size: 1.3em;
+        min-width: 60px;
+    }
+    
+    .round-btn,
+    .exchange-btn {
+        padding: 8px 12px;
+        font-size: 0.85em;
+    }
+    
+    .quick-buttons {
+        grid-template-columns: 1fr;
+    }
+    
+    .quick-btn {
+        padding: 14px;
+        font-size: 0.95em;
+    }
+    
+    .players-container {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 10px;
+    }
+    
+    .player-card {
+        padding: 15px;
+    }
+    
+    .player-name {
+        font-size: 1em;
+    }
+    
+    .player-score {
+        font-size: 2em;
     }
     
     .matrix-table th,
@@ -610,6 +673,12 @@ header h1 {
     
     .history-matrix {
         padding: 10px;
+    }
+    
+    .setup-screen,
+    .game-screen,
+    .score-buttons {
+        padding: 15px;
     }
 }
 

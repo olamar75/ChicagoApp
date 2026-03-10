@@ -171,13 +171,13 @@ header h1 {
 /* Game Screen */
 .round-info {
     background: rgba(255, 255, 255, 0.95);
-    padding: 15px;
+    padding: 12px;
     border-radius: 15px;
     margin-bottom: 20px;
     display: flex;
     justify-content: space-around;
     align-items: center;
-    gap: 15px;
+    gap: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     flex-wrap: wrap;
     overflow: visible;
@@ -187,7 +187,7 @@ header h1 {
 .exchange-counter {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 6px;
     flex: 1;
     justify-content: center;
     flex-wrap: wrap;
@@ -197,14 +197,14 @@ header h1 {
 .counter-label {
     font-weight: bold;
     color: #667eea;
-    font-size: 1.1em;
+    font-size: 0.95em;
 }
 
 .counter-value {
-    font-size: 1.5em;
+    font-size: 1.3em;
     font-weight: bold;
     color: #764ba2;
-    min-width: 40px;
+    min-width: 35px;
     text-align: center;
 }
 
@@ -213,9 +213,9 @@ header h1 {
     background: #667eea;
     color: white;
     border: none;
-    padding: 8px 15px;
+    padding: 6px 10px;
     border-radius: 8px;
-    font-size: 0.9em;
+    font-size: 0.8em;
     font-weight: bold;
     cursor: pointer;
     transition: all 0.2s;
@@ -615,9 +615,9 @@ header h1 {
     }
     
     .round-info {
-        padding: 10px;
+        padding: 8px;
         flex-direction: column;
-        gap: 10px;
+        gap: 8px;
     }
     
     .round-counter,
@@ -625,22 +625,22 @@ header h1 {
         width: 100%;
         flex-wrap: wrap;
         justify-content: center;
-        gap: 8px;
+        gap: 5px;
     }
     
     .counter-label {
-        font-size: 0.95em;
+        font-size: 0.85em;
     }
     
     .counter-value {
-        font-size: 1.2em;
-        min-width: 50px;
+        font-size: 1.1em;
+        min-width: 35px;
     }
     
     .round-btn,
     .exchange-btn {
-        padding: 6px 10px;
-        font-size: 0.8em;
+        padding: 5px 8px;
+        font-size: 0.75em;
         flex-shrink: 1;
         max-width: 100%;
     }
@@ -694,27 +694,28 @@ header h1 {
 
 @media (max-width: 400px) {
     .round-info {
-        padding: 8px;
+        padding: 6px;
+        gap: 6px;
     }
     
     .round-counter,
     .exchange-counter {
-        gap: 5px;
+        gap: 4px;
     }
     
     .counter-label {
-        font-size: 0.85em;
+        font-size: 0.8em;
     }
     
     .counter-value {
-        font-size: 1.1em;
-        min-width: 40px;
+        font-size: 1em;
+        min-width: 30px;
     }
     
     .round-btn,
     .exchange-btn {
-        padding: 5px 8px;
-        font-size: 0.75em;
+        padding: 4px 6px;
+        font-size: 0.7em;
     }
 }
 

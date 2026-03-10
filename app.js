@@ -467,9 +467,64 @@ function resetGame() {
 // Initialize app
 init();
 
-// Register service worker for PWA support
+// Register service worker for PWA support with auto-update
 if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('./sw.js')
-        .then((registration) => console.log('Service Worker registered'))
+        .then((registration) => {
+            console.log('Service Worker registered');
+            
+            // Check for updates every 30 seconds
+            setInterval(() => {
+                registration.update();
+            }, 30000);
+            
+            // Listen for updates
+            registration.addEventListener('updatefound', () => {
+                const newWorker = registration.installing;
+                newWorker.addEventListener('statechange', () => {
+                    if (newWorker.state === 'activated') {
+                        // Show update notification
+                        showUpdateNotification();
+                    }
+                });
+            });
+        })
         .catch((error) => console.log('Service Worker registration failed:', error));
+    
+    // Reload page when new service worker takes control
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+        window.location.reload();
+    });
+}
+
+// Show update notification
+function showUpdateNotification() {
+    const notification = document.createElement('div');
+    notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #27ae60;
+        color: white;
+        padding: 15px 25px;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+        z-index: 10000;
+        font-weight: bold;
+        text-align: center;
+        animation: slideDown 0.3s ease-out;
+    `;
+    notification.textContent = '🔄 Ny version laddas...';
+    document.body.appendChild(notification);
+    
+    // Add animation
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes slideDown {
+            from { transform: translateX(-50%) translateY(-100%); opacity: 0; }
+            to { transform: translateX(-50%) translateY(0); opacity: 1; }
+        }
+    `;
+    document.head.appendChild(style);
 }

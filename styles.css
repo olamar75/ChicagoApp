@@ -583,7 +583,7 @@ header h1 {
 }
 
 /* Responsive adjustments */
-@media (max-width: 400px) {
+@media (max-width: 500px) {
     .quick-buttons {
         grid-template-columns: 1fr;
     }

@@ -85,6 +85,22 @@ function setupEventListeners() {
             }
         });
     }
+
+    // Exchange and round button listeners
+    const exchangeBtn = document.getElementById('exchangeBtn');
+    const nextRoundBtn = document.getElementById('nextRoundBtn');
+    
+    if (exchangeBtn) {
+        exchangeBtn.addEventListener('click', incrementExchange);
+    }
+    
+    if (nextRoundBtn) {
+        nextRoundBtn.addEventListener('click', () => {
+            if (confirm('Gå till nästa giv?')) {
+                nextRound();
+            }
+        });
+    }
 }
 
 function showPlayerNameInputs(count, userEvent) {
@@ -140,22 +156,6 @@ function startGame() {
     renderPlayers();
     updateScoreButtons();
     updateRoundInfo();
-    
-    // Setup exchange and round button listeners
-    const exchangeBtn = document.getElementById('exchangeBtn');
-    const nextRoundBtn = document.getElementById('nextRoundBtn');
-    
-    if (exchangeBtn) {
-        exchangeBtn.addEventListener('click', incrementExchange);
-    }
-    
-    if (nextRoundBtn) {
-        nextRoundBtn.addEventListener('click', () => {
-            if (confirm('Gå till nästa giv?')) {
-                nextRound();
-            }
-        });
-    }
 }
 
 function renderPlayers() {

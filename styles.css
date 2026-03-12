@@ -363,6 +363,7 @@ header h1 {
     background: #27ae60;
     font-weight: bold;
     box-shadow: 0 2px 4px rgba(39, 174, 96, 0.4);
+    grid-column: span 2;
 }
 
 .quick-btn.chicago-plus,

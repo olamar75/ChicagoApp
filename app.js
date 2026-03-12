@@ -119,7 +119,8 @@ function startGame() {
     gameState.players = names.map(name => ({
         name: name,
         score: 0,
-        koepstopp: false
+        koepstopp: false,
+        chicagoBlocked: false
     }));
     
     gameState.activePlayerIndex = 0;
@@ -172,6 +173,10 @@ function renderPlayers() {
             card.classList.add('koepstopp');
         }
         
+        if (player.chicagoBlocked) {
+            card.classList.add('chicago-blocked');
+        }
+        
         card.innerHTML = `
             <div class="player-name">${player.name}</div>
             <div class="player-score">${player.score}</div>
@@ -194,24 +199,26 @@ function setActivePlayer(index) {
 function addScore(points) {
     const player = gameState.players[gameState.activePlayerIndex];
     
-    // Check if player can receive points
-    if (player.koepstopp && points !== 52 && points > 0) {
-        alert(`${player.name} har köpstopp och kan inte få fler poäng (förutom Chicago)!`);
-        return;
-    }
-    
     // Save to history
     gameState.history.push({
         playerIndex: gameState.activePlayerIndex,
         points: points,
         previousScore: player.score,
         wasKoepstopp: player.koepstopp,
+        wasChicagoBlocked: player.chicagoBlocked,
         round: gameState.currentRound,
         exchanges: gameState.exchangesUsed
     });
     
     // Add points
     player.score += points;
+    
+    // Check for chicago blocked (>= 32 points)
+    if (player.score >= 32) {
+        player.chicagoBlocked = true;
+    } else {
+        player.chicagoBlocked = false;
+    }
     
     // Check for köpstopp
     if (player.score >= 47) {
@@ -344,23 +351,7 @@ function moveToNextPlayer() {
 }
 
 function updateScoreButtons() {
-    const activePlayer = gameState.players[gameState.activePlayerIndex];
-    
-    // Disable buttons based on player state
-    scoreBtns.forEach(btn => {
-        const score = parseInt(btn.dataset.score);
-        
-        if (score === 52) {
-            // Royal flush - disable if player has >= 32 points
-            btn.disabled = activePlayer.score >= 32;
-        } else if (score < 0) {
-            // Negative scores (penalties) are always enabled
-            btn.disabled = false;
-        } else {
-            // Positive score buttons - disable if player has köpstopp
-            btn.disabled = activePlayer.koepstopp;
-        }
-    });
+    // All score buttons are always enabled - no restrictions
 }
 
 function updateUndoButton() {
@@ -376,6 +367,7 @@ function undoLastAction() {
     // Restore previous state
     player.score = lastAction.previousScore;
     player.koepstopp = lastAction.wasKoepstopp;
+    player.chicagoBlocked = lastAction.wasChicagoBlocked;
     gameState.currentRound = lastAction.round;
     gameState.exchangesUsed = lastAction.exchanges;
     

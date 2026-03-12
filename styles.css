@@ -296,6 +296,25 @@ header h1 {
     font-weight: bold;
 }
 
+.player-card.chicago-blocked::before {
+    content: "CHICAGO";
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    background: rgba(255, 255, 255, 0.9);
+    color: #9b59b6;
+    padding: 3px 8px;
+    border-radius: 5px;
+    font-size: 0.7em;
+    font-weight: bold;
+    text-decoration: line-through;
+    text-decoration-thickness: 2px;
+}
+
+.player-card.chicago-blocked.koepstopp::before {
+    top: 30px;
+}
+
 .player-name {
     font-size: 1.1em;
     font-weight: bold;
@@ -335,6 +354,22 @@ header h1 {
     padding: 12px 8px;
 }
 
+.quick-btn.btn-fyrtal,
+.quick-btn.btn-fargstege {
+    grid-column: span 1;
+}
+
+.quick-btn.btn-spelet {
+    background: #27ae60;
+    font-weight: bold;
+    box-shadow: 0 2px 4px rgba(39, 174, 96, 0.4);
+}
+
+.quick-btn.chicago-plus,
+.quick-btn.chicago-minus {
+    grid-column: span 1;
+}
+
 .quick-btn.chicago-plus {
     background: #f39c12;
 }
@@ -345,6 +380,7 @@ header h1 {
 
 .quick-btn.chicago-royal {
     background: #9b59b6;
+    grid-column: span 2;
 }
 
 .quick-btn.negative {
@@ -658,12 +694,16 @@ header h1 {
     }
     
     .quick-buttons {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, 1fr);
     }
     
     .quick-btn {
         padding: 14px;
         font-size: 0.95em;
+    }
+    
+    .quick-btn.chicago-royal {
+        grid-column: span 2;
     }
     
     .players-container {
